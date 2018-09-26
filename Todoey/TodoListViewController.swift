@@ -12,8 +12,14 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Buy Eggs", "Destroy Demorogon"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -51,6 +57,8 @@ class TodoListViewController: UITableViewController {
             if enteredText.text! > "" {
                 self.itemArray.append(enteredText.text!)
                 self.tableView.reloadData()
+                
+                self.defaults.set(self.itemArray, forKey: "TodoListArray")
             }
         }
         //let action = UIAlertAction(title: "Cancel", style: .default) { (action) in }
